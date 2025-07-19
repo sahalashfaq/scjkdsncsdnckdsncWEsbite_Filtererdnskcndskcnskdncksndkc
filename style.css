@@ -206,18 +206,18 @@ button[kind="primary"] p {
 }
 
 .stHorizontalBlock.st-emotion-cache-ocqkz7.e6rk8up0 button[data-testid="stBaseButton-secondary"].st-emotion-cache-ocsh0s {
-    white-space: nowrap;
-    display: flex;
-    position: absolute;
-    top: -30px;
+    white-space: nowrap !important;
+    display: flex !important;
+    position: absolute !important;
+    top: -30px !important;
     right: 0px !important;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    border: none;
-    background: var(--black);
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 10px !important;
+    border: none !important;
+    background: var(--black) !important;
     color: var(--white) !important;
-    text-align: center;
+    text-align: center !important;
 }
 
 .st-emotion-cache-nwtri {
