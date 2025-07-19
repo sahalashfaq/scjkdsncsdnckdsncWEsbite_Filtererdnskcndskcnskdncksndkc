@@ -62,8 +62,20 @@ body {
     box-sizing: border-box;
     text-align: center;
 }
-.st-emotion-cache-1gulkj5{
-        background: var(--white);
+
+button[data-testid="stBaseButton-secondary"] {
+    background: var(--black);
+    transform: none !important;
+    box-shadow: none !important;
+    border: none !important;
+    white-space: nowrap;
+    right: 0 !important;
+    position: relative;
+    right: 55px !important;
+}
+
+.st-emotion-cache-1gulkj5 {
+    background: var(--white);
     box-shadow: 0px 0px 2px grey;
     padding: 10px 10px;
     border-radius: 1000px;
@@ -76,6 +88,24 @@ body {
     box-sizing: border-box;
     text-align: center;
 }
+
+.st-emotion-cache-1gulkj5 button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: var(--black);
+    border-radius: 1000px;
+    padding: 15px 30px;
+    color: var(--white);
+    letter-spacing: 1px;
+    font-size: small;
+    font-weight: 600;
+    border: none;
+    outline: none;
+    right: 0 !important;
+}
+
 /* .st-emotion-cache-1gulkj5 button{
 
 } */
@@ -94,7 +124,7 @@ button[data-testid="stBaseButton-secondary"] {
     border: none !important;
 }
 
-.stTabs [aria-selected="true"]{
+.stTabs [aria-selected="true"] {
     background-color: var(--indigo-color) !important;
     transform: none !important;
     box-shadow: none !important;
@@ -249,9 +279,12 @@ button[kind="primary"] p {
 .st-emotion-cache-nwtri svg {
     fill: var(--white);
 }
-header,footer{
+
+header,
+footer {
     display: none !important;
 }
+
 .stHorizontalBlock.st-emotion-cache-ocqkz7.e6rk8up0 button[data-testid="stBaseButton-secondary"].st-emotion-cache-ocsh0s p {
     color: var(--white);
     display: flex;
@@ -262,6 +295,7 @@ header,footer{
     text-align: center;
     gap: 10px;
 }
+
 .st-emotion-cache-1h9usn1 {
     background: var(--white) !important;
     border: none !important;
@@ -499,10 +533,12 @@ footer {
     padding: 8px 16px !important;
     transition: all 0.3s ease;
 }
-.stTabs [data-baseweb="tab"]:hover{
+
+.stTabs [data-baseweb="tab"]:hover {
     background: var(--black);
 }
-div[role="presentation"]{
+
+div[role="presentation"] {
     background: var(--indigo-color);
     margin-top: 10px;
 }
