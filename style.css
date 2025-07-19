@@ -71,7 +71,7 @@ button[data-testid="stBaseButton-secondary"] {
     white-space: nowrap;
     right: 0 !important;
     position: relative;
-    right: 55px !important;
+    right: 50px !important;
 }
 
 .st-emotion-cache-1gulkj5 {
@@ -103,7 +103,7 @@ button[data-testid="stBaseButton-secondary"] {
     font-weight: 600;
     border: none;
     outline: none;
-    right: 0 !important;
+    right: 5px !important;
 }
 
 /* .st-emotion-cache-1gulkj5 button{
