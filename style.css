@@ -41,11 +41,11 @@ body {
 }
 
 .st-emotion-cache-1gulkj5.e1blfcsg0 {
-    background: var(--white);
-    box-shadow: 0px 0px 2px grey;
-    padding: 10px 10px;
-    padding-right: 15px;
-    border-radius: 1000px;
+    background: var(--white) !important;
+    box-shadow: 0px 0px 2px grey !important;
+    padding: 10px 10px !important;
+    padding-right: 15px !important;
+    border-radius: 1000px !important;
 }
 
 .stFileUploaderFile.st-emotion-cache-12xsiil.e1blfcsg10 {
@@ -263,10 +263,10 @@ header,footer{
 }
 
 .st-emotion-cache-1h9usn1 input {
-    padding: 10px;
-    border-radius: 5px;
-    background: var(--background);
-    box-shadow: 0px 0px 3px rgb(128, 128, 128);
+    padding: 10px !important;
+    border-radius: 5px !important;
+    background: var(--background) !important;
+    box-shadow: 0px 0px 3px rgb(128, 128, 128) !important;
 }
 
 .st-emotion-cache-1h9usn1 * {
