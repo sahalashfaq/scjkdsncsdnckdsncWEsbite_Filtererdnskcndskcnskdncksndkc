@@ -349,7 +349,7 @@ footer {
     font-weight: 600 !important;
 }
 
-.st-emotion-cache-ocsh0s.e1d5ycv52:hover {
+.st-emotion-cache-ocsh0s:hover {
     box-shadow: none;
     transform: none;
     border: 2px solid grey;
@@ -455,16 +455,24 @@ footer {
 }
 
 .metric-card .h2 {
-    margin: 0 0 0.5rem;
-    font-size: 1rem;
+    font-size: small !important;
     color: var(--grey-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .metric-card p {
     margin: 0;
-    font-size: 1.8rem;
+    font-size: large;
     font-weight: bold;
     color: var(--indigo-color);
+    white-space: nowrap;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .metric-card.success::before {
