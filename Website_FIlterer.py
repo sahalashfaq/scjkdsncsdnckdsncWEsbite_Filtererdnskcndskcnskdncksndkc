@@ -309,6 +309,10 @@ def process_websites(df, main_categories, niche_categories, progress_bar):
     # Create a dictionary to store results with original index
     results_dict = {index: None for index in range(len(df))}
     
+    # Add progress tracking variables
+    start_time = time.time()
+    processed_count = 0
+    
     with ThreadPoolExecutor(max_workers=5) as executor:
         futures = {
             executor.submit(
@@ -351,7 +355,25 @@ def process_websites(df, main_categories, niche_categories, progress_bar):
                     "Success": False,
                     "Error": str(e)
                 }
-            progress_bar.progress((len([r for r in results_dict.values() if r is not None]) / total))
+            
+            # Update progress tracking
+            processed_count += 1
+            progress_percent = int((processed_count / total) * 100)
+            
+            # Calculate estimated time remaining
+            elapsed_time = time.time() - start_time
+            avg_time_per_item = elapsed_time / processed_count
+            remaining_items = total - processed_count
+            estimated_remaining = avg_time_per_item * remaining_items
+            
+            # Format time display
+            if estimated_remaining > 60:
+                time_display = f"{estimated_remaining/60:.1f} minutes remaining"
+            else:
+                time_display = f"{estimated_remaining:.0f} seconds remaining"
+            
+            # Update progress bar with additional info
+            progress_bar.progress(progress_percent/100, text=f"Processing {processed_count}/{total} websites ({progress_percent}%) - {time_display}")
     
     # Convert results dictionary to DataFrame in correct order
     results_df = pd.DataFrame.from_dict(results_dict, orient='index')
@@ -452,12 +474,13 @@ def main():
                     st.stop()
                 
                 if st.button("Start Analysis", use_container_width=True, type="primary"):
-                    with st.spinner("Processing websites..."):
-                        progress_bar = st.progress(0)
+                   with st.spinner("Processing websites..."):
+                        progress_bar = st.progress(0, text="Preparing to process websites...")
                         result_df = process_websites(df, MAIN_CATEGORIES, niche_categories, progress_bar)
                         st.session_state.processed_data = result_df
                         progress_bar.empty()
                         st.success("✅  Analysis completed!")
+                        st.markdown("""<hr>""", unsafe_allow_html=True)
                             # File upload section
                         st.markdown("""
                         <hr>
