@@ -24,7 +24,13 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 
-    
+    # Inject JS using st.markdown
+st.markdown("""
+    <script>
+        alert("This is a JavaScript alert!");
+        console.log("JS is running!");
+    </script>
+""", unsafe_allow_html=True)
 # Main category keywords
 MAIN_CATEGORIES = {
     'blog': ['blog', 'post', 'article', 'news', 'journal', 'writing', 'editorial', 'author'],
