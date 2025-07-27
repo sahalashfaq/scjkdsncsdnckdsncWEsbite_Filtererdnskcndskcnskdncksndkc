@@ -23,14 +23,23 @@ def local_css(file_name):
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
-
-    # Inject JS using st.markdown
-st.markdown("""
-    <script>
-        alert("This is a JavaScript alert!");
-        console.log("JS is running!");
-    </script>
-""", unsafe_allow_html=True)
+components.html(
+    """
+    <html>
+    <body>
+        <button onclick="showMessage()">Click me</button>
+        <p id="msg"></p>
+        <script>
+            function showMessage() {
+                document.getElementById("msg").innerText = "JS is fully working!";
+                console.log("JS executed!");
+            }
+        </script>
+    </body>
+    </html>
+    """,
+    height=200,
+)
 # Main category keywords
 MAIN_CATEGORIES = {
     'blog': ['blog', 'post', 'article', 'news', 'journal', 'writing', 'editorial', 'author'],
