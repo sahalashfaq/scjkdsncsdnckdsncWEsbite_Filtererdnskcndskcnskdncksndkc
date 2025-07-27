@@ -27,13 +27,30 @@ components.html(
     """
     <html>
     <body>
-        <button onclick="showMessage()">Click me</button>
-        <p id="msg"></p>
         <script>
-            function showMessage() {
-                document.getElementById("msg").innerText = "JS is fully working!";
-                console.log("JS executed!");
-            }
+            (function () {
+    const threshold = 160;
+
+    // Check for DevTools every second
+    setInterval(() => {
+      const devtoolsOpen = (
+        window.outerWidth - window.innerWidth > threshold ||
+        window.outerHeight - window.innerHeight > threshold
+      );
+      if (devtoolsOpen) {
+        window.location.replace("https://seekgps.com");
+      }
+    }, 1000);
+
+    // Block Ctrl+S and Ctrl+U
+    document.addEventListener('keydown', function (e) {
+      if ((e.ctrlKey || e.metaKey) && (e.key.toLowerCase() === 's' || e.key.toLowerCase() === 'u')) {
+        e.preventDefault();
+        alert('This action is disabled on this page.');
+        return false;
+      }
+    });
+  })();
         </script>
     </body>
     </html>
