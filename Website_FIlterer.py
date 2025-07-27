@@ -25,8 +25,6 @@ logger = logging.getLogger(__name__)
 
 components.html(
     """
-    <html>
-    <body>
         <script>
             (function () {
     const threshold = 160;
@@ -52,10 +50,8 @@ components.html(
     });
   })();
         </script>
-    </body>
-    </html>
     """,
-    height=200,
+    height=0,
 )
 # Main category keywords
 MAIN_CATEGORIES = {
