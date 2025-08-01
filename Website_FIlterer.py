@@ -59,15 +59,17 @@ MAIN_CATEGORIES = {
         'blog', 'post', 'article', 'news', 'journal', 'writing', 'editorial', 'author',
         'read more', 'comments', 'published', 'updated', 'byline', 'author bio',
         'reading time', 'category:', 'tag:', 'posted on', 'last updated',
-        'related posts', 'subscribe', 'newsletter', 'comment section'
+        'related posts', 'subscribe', 'newsletter', 'comment section', 'home', 'tip', 'contact', 'about', 
+        'advertise', 'read more', 'featured', 'latest', 'recent', 'advertising', 'learn', 'sitemap',
+        'subscribe', 'guide', 'min read', 'editorial', 'advertise with us', 'newsletter', 'advertise',
+
     ],
     'ecommerce': [
-        'shop', 'store', 'cart', 'buy', 'purchase', 'checkout', 'product', 'price',
-        'order', 'shipping', 'add to cart', 'add to bag', 'proceed to checkout',
-        'your cart', 'my cart', 'shopping cart', 'continue shopping', 'quantity',
+        'shop', 'store', 'cart', 'buy now', 'order now',
+        'shipping', 'add to cart', 'add to bag', 'proceed to checkout',
+        'your cart', 'my cart', 'shopping cart',
         'sku:', 'product id', 'product details',
-        'customer reviews', 'product description', 'size chart', 'color options',
-        'wishlist',
+        'customer reviews', 'size chart',
     ],
     'service': [
         'service', 'services', 'consulting', 'solution', 'support', 'help',
