@@ -205,21 +205,37 @@ def analyze_content(content, main_categories, niche_categories):
         # Detect language
         language = detect_language(soup)
         
-        # Analyze main category
+        # Analyze main category with weighted scores
         main_scores = {category: 0 for category in main_categories}
+        
+        # Weight certain keywords higher for ecommerce
+        ecommerce_weighted = ['cart', 'checkout', 'price', 'product', 'shop', 'store']
+        
         for category, keywords in main_categories.items():
             for keyword in keywords:
                 if keyword in content_lower:
-                    main_scores[category] += 1
+                    # Give higher weight to ecommerce-specific keywords
+                    if category == 'ecommerce' and keyword in ecommerce_weighted:
+                        main_scores[category] += 3
+                    else:
+                        main_scores[category] += 1
         
-        # Get all main categories with score > threshold (2)
-        possible_main_types = [cat for cat, score in main_scores.items() if score >= 2]
-        
-        # If no clear main type, use the highest scoring one
-        if not possible_main_types:
-            main_type = max(main_scores.items(), key=lambda x: x[1])[0] if any(main_scores.values()) else "Unknown"
+        # Get the category with highest score
+        if not any(main_scores.values()):
+            main_type = "Unknown"
         else:
-            main_type = ", ".join(possible_main_types) if len(possible_main_types) > 1 else possible_main_types[0]
+            # Get the category with maximum score
+            max_score = max(main_scores.values())
+            # If there's a tie, prioritize ecommerce > service > blog
+            if list(main_scores.values()).count(max_score) > 1:
+                if main_scores['ecommerce'] == max_score:
+                    main_type = 'ecommerce'
+                elif main_scores['service'] == max_score:
+                    main_type = 'service'
+                else:
+                    main_type = 'blog'
+            else:
+                main_type = max(main_scores.items(), key=lambda x: x[1])[0]
         
         # Analyze niche categories
         niche_matches = []
