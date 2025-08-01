@@ -65,14 +65,13 @@ MAIN_CATEGORIES = {
         'shop', 'store', 'cart', 'buy', 'purchase', 'checkout', 'product', 'price',
         'order', 'shipping', 'add to cart', 'add to bag', 'proceed to checkout',
         'your cart', 'my cart', 'shopping cart', 'continue shopping', 'quantity',
-        'in stock', 'out of stock', 'sku:', 'product id', 'product details',
+        'sku:', 'product id', 'product details',
         'customer reviews', 'product description', 'size chart', 'color options',
-        'wishlist', 'save for later', 'estimated delivery', 'returns policy',
-        'payment methods', 'secure checkout'
+        'wishlist',
     ],
     'service': [
-        'service', 'services', 'consulting', 'solution', 'support', 'help', 'contact us',
-        'about us', 'professional', 'agency', 'our services', 'what we offer',
+        'service', 'services', 'consulting', 'solution', 'support', 'help',
+        'agency', 'our services', 'what we offer',
         'service packages', 'pricing plans', 'get a quote', 'request a demo',
         'schedule a call', 'book now', 'hire us', 'our expertise', 'service areas',
         'how it works', 'our process', 'service benefits', 'why choose us',
