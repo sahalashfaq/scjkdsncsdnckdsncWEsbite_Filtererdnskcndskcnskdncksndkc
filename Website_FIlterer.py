@@ -55,9 +55,30 @@ components.html(
 )
 # Main category keywords
 MAIN_CATEGORIES = {
-    'blog': ['blog', 'post', 'article', 'news', 'journal', 'writing', 'editorial', 'author'],
-    'ecommerce': ['shop', 'store', 'cart', 'buy', 'purchase', 'checkout', 'product', 'price', 'order', 'shipping'],
-    'service': ['service', 'consulting', 'solution', 'support', 'help', 'contact', 'about', 'professional', 'agency']
+    'blog': [
+        'blog', 'post', 'article', 'news', 'journal', 'writing', 'editorial', 'author',
+        'read more', 'comments', 'published', 'updated', 'byline', 'author bio',
+        'reading time', 'category:', 'tag:', 'posted on', 'last updated',
+        'related posts', 'subscribe', 'newsletter', 'comment section'
+    ],
+    'ecommerce': [
+        'shop', 'store', 'cart', 'buy', 'purchase', 'checkout', 'product', 'price',
+        'order', 'shipping', 'add to cart', 'add to bag', 'proceed to checkout',
+        'your cart', 'my cart', 'shopping cart', 'continue shopping', 'quantity',
+        'in stock', 'out of stock', 'sku:', 'product id', 'product details',
+        'customer reviews', 'product description', 'size chart', 'color options',
+        'wishlist', 'save for later', 'estimated delivery', 'returns policy',
+        'payment methods', 'secure checkout'
+    ],
+    'service': [
+        'service', 'services', 'consulting', 'solution', 'support', 'help', 'contact us',
+        'about us', 'professional', 'agency', 'our services', 'what we offer',
+        'service packages', 'pricing plans', 'get a quote', 'request a demo',
+        'schedule a call', 'book now', 'hire us', 'our expertise', 'service areas',
+        'how it works', 'our process', 'service benefits', 'why choose us',
+        'testimonials', 'case studies', 'our clients', 'portfolio', 'work with us',
+        'service request', 'contact form', 'get in touch', 'free consultation'
+    ]
 }
 
 # Niche category keywords
@@ -194,53 +215,109 @@ def detect_language(soup):
         return "Unknown"
 
 def analyze_content(content, main_categories, niche_categories):
-    """Analyze content and return main type, niches, and language"""
+    """Analyze content and return main type, niches, and language with improved detection"""
     if not content:
         return "Unknown", [], "Unknown", "No content"
 
     try:
         soup = BeautifulSoup(content, 'html.parser')
         content_lower = content.lower()
+        text_content = soup.get_text().lower()
         
         # Detect language
         language = detect_language(soup)
         
-        # Analyze main category with weighted scores
-        main_scores = {category: 0 for category in main_categories}
+        # Extended detection methods
+        is_blog = False
+        is_ecommerce = False
+        is_service = False
         
-        # Weight certain keywords higher for ecommerce
-        ecommerce_weighted = ['cart', 'checkout', 'price', 'product', 'shop', 'store']
+        # Blog detection - check for multiple indicators
+        blog_indicators = 0
+        blog_elements = soup.find_all(['article', 'time', 'div', 'section'])
+        for element in blog_elements:
+            classes = element.get('class', [])
+            class_str = ' '.join(classes).lower() if classes else ''
+            
+            # Check for blog-specific classes and attributes
+            if (element.name == 'article' or
+                'post' in class_str or
+                'article' in class_str or
+                'blog' in class_str or
+                'entry' in class_str or
+                'story' in class_str):
+                blog_indicators += 1
+                
+            # Check for dates in articles
+            if element.find('time'):
+                blog_indicators += 1
         
+        # Check URL structure for blogs
+        if '/blog/' in content_lower or '/post/' in content_lower or '/article/' in content_lower:
+            blog_indicators += 2
+            
+        # Ecommerce detection - check for shopping elements
+        ecommerce_indicators = 0
+        if any(keyword in content_lower for keyword in ['/product/', '/shop/', '/cart/', '/checkout/']):
+            ecommerce_indicators += 3
+            
+        # Check for product elements
+        product_elements = soup.find_all(class_=re.compile(r'product|item|sku|price|add-to-cart'))
+        ecommerce_indicators += len(product_elements) * 0.5  # Each product element adds weight
+        
+        # Service detection - check for service pages
+        service_indicators = 0
+        service_elements = soup.find_all(class_=re.compile(r'service|consulting|solution|support'))
+        service_indicators += len(service_elements)
+        
+        if '/services/' in content_lower or '/service/' in content_lower:
+            service_indicators += 2
+        
+        # Count keyword matches with weights
+        main_scores = {
+            'blog': 0,
+            'ecommerce': 0,
+            'service': 0
+        }
+        
+        # Count keyword matches with weights
         for category, keywords in main_categories.items():
             for keyword in keywords:
-                if keyword in content_lower:
-                    # Give higher weight to ecommerce-specific keywords
-                    if category == 'ecommerce' and keyword in ecommerce_weighted:
+                if keyword in text_content:
+                    # Higher weights for more specific terms
+                    if category == 'ecommerce' and keyword in ['cart', 'checkout', 'product']:
                         main_scores[category] += 3
+                    elif category == 'blog' and keyword in ['post', 'article', 'published']:
+                        main_scores[category] += 2
+                    elif category == 'service' and keyword in ['our services', 'service packages']:
+                        main_scores[category] += 2
                     else:
                         main_scores[category] += 1
         
-        # Get the category with highest score
-        if not any(main_scores.values()):
-            main_type = "Unknown"
-        else:
-            # Get the category with maximum score
-            max_score = max(main_scores.values())
-            # If there's a tie, prioritize ecommerce > service > blog
-            if list(main_scores.values()).count(max_score) > 1:
-                if main_scores['ecommerce'] == max_score:
-                    main_type = 'ecommerce'
-                elif main_scores['service'] == max_score:
-                    main_type = 'service'
-                else:
-                    main_type = 'blog'
-            else:
-                main_type = max(main_scores.items(), key=lambda x: x[1])[0]
+        # Add the additional indicators
+        main_scores['blog'] += blog_indicators
+        main_scores['ecommerce'] += ecommerce_indicators
+        main_scores['service'] += service_indicators
+        
+        # Calculate percentages
+        total_score = sum(main_scores.values()) or 1  # Avoid division by zero
+        percentages = {k: (v/total_score)*100 for k, v in main_scores.items()}
+        
+        # Determine main type based on your 30% criteria
+        main_type = "Unknown"
+        if any(pct >= 30 for pct in percentages.values()):
+            # Get the category with maximum percentage
+            main_type = max(percentages.items(), key=lambda x: x[1])[0]
+            
+            # Special case: if ecommerce and blog are close, prioritize ecommerce
+            if (main_type == 'blog' and 
+                percentages['ecommerce'] >= percentages['blog'] * 0.8):
+                main_type = 'ecommerce'
         
         # Analyze niche categories
         niche_matches = []
         for niche, keywords in niche_categories.items():
-            matches = sum(1 for keyword in keywords if keyword in content_lower)
+            matches = sum(1 for keyword in keywords if keyword in text_content)
             if matches >= 2:  # Minimum 2 keyword matches for a niche
                 niche_matches.append(niche)
         
