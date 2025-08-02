@@ -53,6 +53,7 @@ components.html(
     """,
     height=0,
 )
+# Main category keywords
 MAIN_CATEGORIES = {
     'blog': [
         'blog', 'post', 'article', 'news', 'journal', 'writing', 'editorial', 'author',
@@ -715,40 +716,7 @@ def main():
                     use_container_width=True
                 )
         
-        # Detailed statistics
-        st.markdown("""
-        <div class="stats-section">
-            <p class="h3">Detailed Statistics :</p>
-        </div>
-        """, unsafe_allow_html=True)
         
-        if len(filtered_df) > 0:
-            tab1, tab2, tab3, tab4 = st.tabs(["Main Types", "Niches", "Languages", "TLDs"])
-            
-            with tab1:
-                st.markdown("### Main Type Distribution")
-                st.bar_chart(filtered_df['Main Type'].value_counts())
-            
-            with tab2:
-                st.markdown("### Niche Distribution")
-                niche_counts = pd.Series([niche for niches in filtered_df['Niches'].str.split(', ') for niche in niches if niche != 'None'])
-                st.bar_chart(niche_counts.value_counts())
-            
-            with tab3:
-                st.markdown("### Language Distribution")
-                st.bar_chart(filtered_df['Language'].value_counts())
-            
-            with tab4:
-                st.markdown("### TLD Analysis")
-                col1, col2 = st.columns(2)
-                with col1:
-                    st.markdown("#### Top 10 TLDs")
-                    st.bar_chart(filtered_df['TLD'].value_counts().head(10))
-                with col2:
-                    st.markdown("#### TLD Categories")
-                    st.bar_chart(filtered_df['TLD Category'].value_counts())
-        else:
-            st.warning("No data to display with current filters")
 
 if __name__ == "__main__":
     main()
