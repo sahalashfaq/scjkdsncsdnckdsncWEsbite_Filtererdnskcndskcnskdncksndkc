@@ -530,9 +530,6 @@ def filter_data(df, filters):
     return filtered_df
 
 def main():
-    st.set_page_config(
-        initial_sidebar_state="collapsed"  # This will hide the sidebar
-    )
     
     # Load custom CSS
     local_css("style.css")
@@ -694,7 +691,7 @@ def main():
         col1, col2 = st.columns(2)
         
     if len(filtered_df) < len(result_df):
-              with col1:
+          with col1:
                 csv_filtered = filtered_df.to_csv(index=False)
                 st.download_button(
                 label="Download Filtered Data (CSV)",
@@ -705,7 +702,7 @@ def main():
                 )
 
         
-    with col2:
+          with col2:
             csv = result_df.to_csv(index=False)
             st.download_button(
             label="Download All Data (CSV)",
