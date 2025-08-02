@@ -599,11 +599,6 @@ def main():
                         st.session_state.processed_data = result_df
                         progress_bar.empty()
                         st.success("✅  Analysis completed!")
-                        st.markdown("""<hr>""", unsafe_allow_html=True)
-                            # File upload section
-                        st.markdown("""
-                        <hr>
-                        """, unsafe_allow_html=True)
             except Exception as e:
                 st.error(f"Error reading file: {str(e)}")
     
@@ -717,6 +712,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
