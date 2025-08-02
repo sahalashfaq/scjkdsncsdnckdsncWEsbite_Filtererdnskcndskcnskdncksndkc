@@ -530,6 +530,9 @@ def filter_data(df, filters):
     return filtered_df
 
 def main():
+    st.set_page_config(
+        initial_sidebar_state="collapsed"  # This will hide the sidebar
+    )
     
     # Load custom CSS
     local_css("style.css")
@@ -599,6 +602,11 @@ def main():
                         st.session_state.processed_data = result_df
                         progress_bar.empty()
                         st.success("✅  Analysis completed!")
+                        st.markdown("""<hr>""", unsafe_allow_html=True)
+                            # File upload section
+                        st.markdown("""
+                        <hr>
+                        """, unsafe_allow_html=True)
             except Exception as e:
                 st.error(f"Error reading file: {str(e)}")
     
@@ -685,37 +693,30 @@ def main():
         
         col1, col2 = st.columns(2)
         
-    if len(filtered_df) < len(result_df):
-          with col1:
-                csv_filtered = filtered_df.to_csv(index=False)
-                st.download_button(
-                label="Download Filtered Data (CSV)",
-                data=csv_filtered,
-                file_name="filtered_websites.csv",
-                mime="text/csv",
-                use_container_width=True
-                )
-
+        if len(filtered_df) < len(result_df):
+            with col1:
+                if st.button("Download Filtered Data (CSV)", use_container_width=True):
+                    csv = filtered_df.to_csv(index=False)
+                    st.download_button(
+                        label="Click to download",
+                        data=csv,
+                        file_name="filtered_websites.csv",
+                        mime="text/csv",
+                        use_container_width=True
+                    )
         
-          with col2:
-            csv = result_df.to_csv(index=False)
-            st.download_button(
-            label="Download All Data (CSV)",
-            data=csv,
-            file_name="all_websites.csv",
-            mime="text/csv",
-            use_container_width=True
-            )
-
+        with col2:
+            if st.button("Download All Data (CSV)", use_container_width=True):
+                csv = result_df.to_csv(index=False)
+                st.download_button(
+                    label="Click to download",
+                    data=csv,
+                    file_name="all_websites.csv",
+                    mime="text/csv",
+                    use_container_width=True
+                )
         
         
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
-
-
