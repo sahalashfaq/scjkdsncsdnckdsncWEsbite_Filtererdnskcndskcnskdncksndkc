@@ -531,8 +531,6 @@ def filter_data(df, filters):
 
 def main():
     
-    # Load custom CSS
-    local_css("style.css")
 
     # Initialize session state for processed data and custom categories
     if 'processed_data' not in st.session_state:
@@ -690,7 +688,8 @@ def main():
         
         col1, col2 = st.columns(2)
         
-    if len(filtered_df) < len(result_df):
+        if 'filtered_df' not in locals():
+          filtered_df = result_df
           with col1:
                 csv_filtered = filtered_df.to_csv(index=False)
                 st.download_button(
