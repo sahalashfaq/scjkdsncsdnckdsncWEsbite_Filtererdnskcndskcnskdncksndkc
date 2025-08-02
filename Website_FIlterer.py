@@ -531,6 +531,8 @@ def filter_data(df, filters):
 
 def main():
     
+    # Load custom CSS
+    local_css("style.css")
 
     # Initialize session state for processed data and custom categories
     if 'processed_data' not in st.session_state:
