@@ -716,14 +716,9 @@ def main():
                     use_container_width=True
                 )
         
-        # Detailed statistics
-        st.markdown("""
-        <div class="stats-section">
-            <p class="h3">Detailed Statistics :</p>
-        </div>
-        """, unsafe_allow_html=True)
         
 
 if __name__ == "__main__":
     main()
+
 
