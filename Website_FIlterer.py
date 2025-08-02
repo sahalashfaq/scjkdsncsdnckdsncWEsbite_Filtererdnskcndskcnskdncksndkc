@@ -694,7 +694,7 @@ def main():
         col1, col2 = st.columns(2)
         
        if len(filtered_df) < len(result_df):
-          with col1:
+           with col1:
               csv_filtered = filtered_df.to_csv(index=False)
               st.download_button(
               label="Download Filtered Data (CSV)",
@@ -720,6 +720,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
