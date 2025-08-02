@@ -71,7 +71,6 @@ button[data-testid="stBaseButton-secondary"] {
     white-space: nowrap;
     right: 0 !important;
     position: relative;
-    right: 50px !important;
 }
 
 .st-emotion-cache-1gulkj5 {
@@ -550,3 +549,4 @@ div[role="presentation"] {
     background: var(--indigo-color);
     margin-top: 10px;
 }
+
