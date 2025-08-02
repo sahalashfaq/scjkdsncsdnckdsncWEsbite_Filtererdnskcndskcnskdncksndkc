@@ -1,495 +1,495 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 * {
-    font-family: "Poppins", sans-serif;
-    font-weight: 500;
-    font-style: normal;
-    color: var(--black);
-    box-sizing: border-box;
+          font-family: "Poppins", sans-serif;
+          font-weight: 500;
+          font-style: normal;
+          color: var(--black);
+          box-sizing: border-box;
 }
 
 :root {
-    --primary-color: #000000;
-    --secondary-color: #FD653D;
-    --background: #f5f5f5;
-    --background-color-light: #e7e7ff5e;
-    --white: white;
-    --border-color: #E6EDFF;
-    --indigo-color: #FD653D;
-    --red-color: #FF3B30;
-    --green-color: #146356;
-    --orange-color: #FF9500;
-    --grey-color: #7C8DB5;
-    --border-grey-color: #7c8db547;
-    --font-family-1: "Exo", sans-serif;
-    --font-family-2: "Albert Sans", sans-serif;
-    --font-family-3: "Poppins", sans-serif;
-    --black: #09112c;
-    --aside-background-white: rgba(255, 255, 255, 0.457);
+          --primary-color: #000000;
+          --secondary-color: #FD653D;
+          --background: #f5f5f5;
+          --background-color-light: #e7e7ff5e;
+          --white: white;
+          --border-color: #E6EDFF;
+          --indigo-color: #FD653D;
+          --red-color: #FF3B30;
+          --green-color: #146356;
+          --orange-color: #FF9500;
+          --grey-color: #7C8DB5;
+          --border-grey-color: #7c8db547;
+          --font-family-1: "Exo", sans-serif;
+          --font-family-2: "Albert Sans", sans-serif;
+          --font-family-3: "Poppins", sans-serif;
+          --black: #09112c;
+          --aside-background-white: rgba(255, 255, 255, 0.457);
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #333;
-    line-height: 1.6;
-    max-width: 1500px !important;
-    margin: 0 auto;
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          color: #333;
+          line-height: 1.6;
+          max-width: 1500px !important;
+          margin: 0 auto;
 }
 
 .st-emotion-cache-1r4qj8v {
-    background: var(--background);
+          background: var(--background);
 }
 
 .st-emotion-cache-1gulkj5.e1blfcsg0 {
-    background: var(--white) !important;
-    box-shadow: 0px 0px 2px grey !important;
-    padding: 10px 10px !important;
-    padding-right: 15px !important;
-    border-radius: 1000px !important;
+          background: var(--white) !important;
+          box-shadow: 0px 0px 2px grey !important;
+          padding: 10px 10px !important;
+          padding-right: 15px !important;
+          border-radius: 1000px !important;
 }
 
 .stFileUploaderFile.st-emotion-cache-12xsiil.e1blfcsg10 {
-    background: var(--white);
-    box-shadow: 0px 0px 2px grey;
-    padding: 10px 10px;
-    border-radius: 7px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    align-self: center;
-    justify-self: center;
-    box-sizing: border-box;
-    text-align: center;
+          background: var(--white);
+          box-shadow: 0px 0px 2px grey;
+          padding: 10px 10px;
+          border-radius: 7px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          align-self: center;
+          justify-self: center;
+          box-sizing: border-box;
+          text-align: center;
 }
 
 button[data-testid="stBaseButton-secondary"] {
-    background: var(--black);
-    transform: none !important;
-    box-shadow: none !important;
-    border: none !important;
-    white-space: nowrap;
-    right: 0 !important;
-    position: relative;
+          background: var(--black);
+          transform: none !important;
+          box-shadow: none !important;
+          border: none !important;
+          white-space: nowrap;
+          right: 0 !important;
+          position: relative;
 }
 
 .st-emotion-cache-1gulkj5 {
-    background: var(--white);
-    box-shadow: 0px 0px 2px grey;
-    padding: 10px 10px;
-    border-radius: 1000px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    align-self: center;
-    justify-self: center;
-    box-sizing: border-box;
-    text-align: center;
+          background: var(--white);
+          box-shadow: 0px 0px 2px grey;
+          padding: 10px 10px;
+          border-radius: 1000px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          align-self: center;
+          justify-self: center;
+          box-sizing: border-box;
+          text-align: center;
 }
 
 .st-emotion-cache-1gulkj5 button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    background: var(--black);
-    border-radius: 1000px;
-    padding: 15px 30px;
-    color: var(--white);
-    letter-spacing: 1px;
-    font-size: small;
-    font-weight: 600;
-    border: none;
-    outline: none;
-    right: 5px !important;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          background: var(--black);
+          border-radius: 1000px;
+          padding: 15px 30px;
+          color: var(--white);
+          letter-spacing: 1px;
+          font-size: small;
+          font-weight: 600;
+          border: none;
+          outline: none;
+          right: 5px !important;
 }
 
 /* .st-emotion-cache-1gulkj5 button{
 
 } */
 ul[data-testid="stSelectboxVirtualDropdown"] {
-    background: var(--white) !important;
+          background: var(--white) !important;
 }
 
 label[data-baseweb="checkbox"] span {
-    background: var(--white);
+          background: var(--white);
 }
 
 button[data-testid="stBaseButton-secondary"] {
-    background: var(--black);
-    transform: none !important;
-    box-shadow: none !important;
-    border: none !important;
+          background: var(--black);
+          transform: none !important;
+          box-shadow: none !important;
+          border: none !important;
 }
 
 .stTabs [aria-selected="true"] {
-    background-color: var(--indigo-color) !important;
-    transform: none !important;
-    box-shadow: none !important;
-    border: none !important;
+          background-color: var(--indigo-color) !important;
+          transform: none !important;
+          box-shadow: none !important;
+          border: none !important;
 }
 
 button[data-baseweb="tab"] {
-    background: var(--black);
-    transform: none !important;
-    box-shadow: none !important;
-    border: none !important;
+          background: var(--black);
+          transform: none !important;
+          box-shadow: none !important;
+          border: none !important;
 }
 
 button[data-baseweb="tab"] p {
-    color: var(--white);
+          color: var(--white);
 }
 
 button[data-testid="stBaseButton-secondary"] p {
-    color: var(--white);
-    font-size: small;
-    font-weight: 600;
+          color: var(--white);
+          font-size: small;
+          font-weight: 600;
 }
 
 input[aria-checked="true"]+span {
-    background: var(--indigo-color) !important;
+          background: var(--indigo-color) !important;
 }
 
 .stHorizontalBlock.st-emotion-cache-ocqkz7.e6rk8up0 .st-as {
-    background: var(--white);
+          background: var(--white);
 }
 
 .stHorizontalBlock.st-emotion-cache-ocqkz7.e6rk8up0 {
-    gap: 50px;
+          gap: 50px;
 }
 
 .h2 {
-    font-size: large !important;
+          font-size: large !important;
 }
 
 p {
-    font-weight: 500 !important;
+          font-weight: 500 !important;
 }
 
 .stFileUploaderFile.st-emotion-cache-12xsiil.e1blfcsg10 svg {
-    fill: var(--indigo-color);
+          fill: var(--indigo-color);
 }
 
 .stFileUploaderFile.st-emotion-cache-12xsiil.e1blfcsg10 button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    background: var(--black);
-    border-radius: 10px;
-    padding: 10px;
-    color: var(--white);
-    letter-spacing: 1px;
-    font-size: small;
-    font-weight: 600;
-    border: none;
-    outline: none;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          background: var(--black);
+          border-radius: 10px;
+          padding: 10px;
+          color: var(--white);
+          letter-spacing: 1px;
+          font-size: small;
+          font-weight: 600;
+          border: none;
+          outline: none;
 }
 
 button[kind="primary"] {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    background: var(--black) !important;
-    border-radius: 10px;
-    padding: 10px 20px;
-    transform: none !important;
-    position: relative;
-    width: max-content;
-    color: var(--white);
-    letter-spacing: 1px;
-    font-size: small;
-    font-weight: 600;
-    border: none;
-    outline: none;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          background: var(--black) !important;
+          border-radius: 10px;
+          padding: 10px 20px;
+          transform: none !important;
+          position: relative;
+          width: max-content;
+          color: var(--white);
+          letter-spacing: 1px;
+          font-size: small;
+          font-weight: 600;
+          border: none;
+          outline: none;
 }
 
 .st-emotion-cache-a0igut {
-    border-color: var(--indigo-color) rgba(49, 51, 63, 0.2) rgba(49, 51, 63, 0.2);
+          border-color: var(--indigo-color) rgba(49, 51, 63, 0.2) rgba(49, 51, 63, 0.2);
 }
 
 button[kind="primary"] p {
-    color: var(--white);
-    font-weight: 600;
-    font-size: small;
+          color: var(--white);
+          font-weight: 600;
+          font-size: small;
 }
 
 .stFileUploaderFile.st-emotion-cache-12xsiil.e1blfcsg10 button svg {
-    fill: var(--white) !important;
+          fill: var(--white) !important;
 }
 
 .st-emotion-cache-1gulkj5.e1blfcsg0 button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    background: var(--black);
-    border-radius: 1000px;
-    padding: 15px 30px;
-    color: var(--white);
-    letter-spacing: 1px;
-    font-size: small;
-    font-weight: 600;
-    border: none;
-    outline: none;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          background: var(--black);
+          border-radius: 1000px;
+          padding: 15px 30px;
+          color: var(--white);
+          letter-spacing: 1px;
+          font-size: small;
+          font-weight: 600;
+          border: none;
+          outline: none;
 }
 
 .st-emotion-cache-1gulkj5.e1blfcsg0 button:hover {
-    border: none;
-    outline: none;
+          border: none;
+          outline: none;
 }
 
 .st-emotion-cache-1gulkj5.e1blfcsg0 button:focus {
-    background: var(--indigo-color);
-    color: var(--white);
+          background: var(--indigo-color);
+          color: var(--white);
 }
 
 .stHorizontalBlock.st-emotion-cache-ocqkz7.e6rk8up0 button[data-testid="stBaseButton-secondary"].st-emotion-cache-ocsh0s {
-    white-space: nowrap !important;
-    display: flex !important;
-    position: absolute !important;
-    top: -30px !important;
-    right: 0px !important;
-    justify-content: center !important;
-    align-items: center !important;
-    gap: 10px !important;
-    border: none !important;
-    background: var(--black) !important;
-    color: var(--white) !important;
-    text-align: center !important;
+          white-space: nowrap !important;
+          display: flex !important;
+          position: absolute !important;
+          top: -30px !important;
+          right: 0px !important;
+          justify-content: center !important;
+          align-items: center !important;
+          gap: 10px !important;
+          border: none !important;
+          background: var(--black) !important;
+          color: var(--white) !important;
+          text-align: center !important;
 }
 
 .st-emotion-cache-nwtri {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 10px;
-    border-radius: 1000px;
-    background: var(--indigo-color);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          padding: 10px;
+          border-radius: 1000px;
+          background: var(--indigo-color);
 }
 
 .st-emotion-cache-nwtri svg {
-    fill: var(--white);
+          fill: var(--white);
 }
 
 header,
 footer {
-    display: none !important;
+          display: none !important;
 }
 
 .stHorizontalBlock.st-emotion-cache-ocqkz7.e6rk8up0 button[data-testid="stBaseButton-secondary"].st-emotion-cache-ocsh0s p {
-    color: var(--white);
-    display: flex;
-    font-size: small;
-    font-weight: 600;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    gap: 10px;
+          color: var(--white);
+          display: flex;
+          font-size: small;
+          font-weight: 600;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          gap: 10px;
 }
 
 .st-emotion-cache-1h9usn1 {
-    background: var(--white) !important;
-    border: none !important;
-    box-shadow: 0px 0px 2px grey !important;
-    border-radius: 5px !important;
+          background: var(--white) !important;
+          border: none !important;
+          box-shadow: 0px 0px 2px grey !important;
+          border-radius: 5px !important;
 }
 
 .st-emotion-cache-1h9usn1 .st-as {
-    background: none !important;
+          background: none !important;
 }
 
 .stAlert {
-    width: 100%;
-    box-sizing: border-box;
+          width: 100%;
+          box-sizing: border-box;
 }
 
 .st-emotion-cache-1h9usn1 input {
-    padding: 10px !important;
-    border-radius: 5px !important;
-    background: var(--background) !important;
-    box-shadow: 0px 0px 3px rgb(128, 128, 128) !important;
+          padding: 10px !important;
+          border-radius: 5px !important;
+          background: var(--background) !important;
+          box-shadow: 0px 0px 3px rgb(128, 128, 128) !important;
 }
 
 .st-emotion-cache-1h9usn1 * {
-    border: none;
+          border: none;
 }
 
 .stForm.st-emotion-cache-4uzi61.e1ttwmlf1 {
-    padding: 0;
+          padding: 0;
 }
 
 .st-emotion-cache-1h9usn1 button {
-    display: flex;
-    background: var(--black);
-    width: max-content;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 5px 20px;
-    border: none;
+          display: flex;
+          background: var(--black);
+          width: max-content;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          padding: 5px 20px;
+          border: none;
 }
 
 .st-emotion-cache-1h9usn1 button p {
-    font-size: small;
-    font-weight: 600;
-    color: var(--white);
+          font-size: small;
+          font-weight: 600;
+          color: var(--white);
 }
 
 .h3 {
-    font-size: x-large !important;
-    font-weight: 600 !important;
+          font-size: x-large !important;
+          font-weight: 600 !important;
 }
 
 .st-emotion-cache-ocsh0s:hover {
-    box-shadow: none;
-    transform: none;
-    border: 2px solid grey;
+          box-shadow: none;
+          transform: none;
+          border: 2px solid grey;
 }
 
 header,
 footer {
-    background: var(--background) !important;
+          background: var(--background) !important;
 }
 
 /* Header styles */
 .header {
-    background: linear-gradient(135deg, #6e8efb, #a777e3);
-    color: white;
-    padding: 1.5rem;
-    border-radius: 10px;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          background: linear-gradient(135deg, #6e8efb, #a777e3);
+          color: white;
+          padding: 1.5rem;
+          border-radius: 10px;
+          margin-bottom: 1.5rem;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .header h1 {
-    margin: 0;
-    font-size: 2.2rem;
+          margin: 0;
+          font-size: 2.2rem;
 }
 
 .subtitle {
-    margin: 0.5rem 0 0;
-    font-weight: 300;
-    opacity: 0.9;
+          margin: 0.5rem 0 0;
+          font-weight: 300;
+          opacity: 0.9;
 }
 
 .description {
-    background-color: #f8f9fa;
-    padding: 1rem 1.5rem;
-    border-radius: 8px;
-    margin-bottom: 2rem;
-    border-left: 4px solid #6e8efb;
+          background-color: #f8f9fa;
+          padding: 1rem 1.5rem;
+          border-radius: 8px;
+          margin-bottom: 2rem;
+          border-left: 4px solid #6e8efb;
 }
 
 .description ul {
-    margin: 0.5rem 0;
-    padding-left: 1.5rem;
+          margin: 0.5rem 0;
+          padding-left: 1.5rem;
 }
 
 /* Sidebar styles */
 .sidebar-header {
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #eee;
-    margin-bottom: 1rem;
+          padding-bottom: 1rem;
+          border-bottom: 1px solid #eee;
+          margin-bottom: 1rem;
 }
 
 .active-categories {
-    background-color: var(--white);
-    border-radius: 5px;
-    box-shadow: 0px 0px 2px grey;
-    padding: 1rem;
-    margin: 1rem 0;
-    border-left: 5px solid var(--indigo-color);
+          background-color: var(--white);
+          border-radius: 5px;
+          box-shadow: 0px 0px 2px grey;
+          padding: 1rem;
+          margin: 1rem 0;
+          border-left: 5px solid var(--indigo-color);
 }
 
 .active-categories h3 {
-    margin-top: 0;
-    color: #2c3e50;
+          margin-top: 0;
+          color: #2c3e50;
 }
 
 .file-upload {
-    margin: 1.5rem 0;
+          margin: 1.5rem 0;
 }
 
 /* Metric cards */
 .metric-card {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    text-align: center;
-    text-align: left;
-    position: relative;
-    padding: 20px;
-    background: var(--aside-background-white);
-    border-radius: 10px;
-    border: 2px solid var(--border-grey-color);
-    width: 100%;
-    gap: 20px;
-    height: 80px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          text-align: center;
+          text-align: left;
+          position: relative;
+          padding: 20px;
+          background: var(--aside-background-white);
+          border-radius: 10px;
+          border: 2px solid var(--border-grey-color);
+          width: 100%;
+          gap: 20px;
+          height: 80px;
 }
 
 .metric-card::before {
-    height: 5px;
-    position: absolute;
-    content: '';
-    width: 70px;
-    left: 50%;
-    bottom: -15px;
-    border-radius: 100px;
-    transform: translateX(-50%);
-    box-sizing: border-box;
-    background: var(--indigo-color);
+          height: 5px;
+          position: absolute;
+          content: '';
+          width: 70px;
+          left: 50%;
+          bottom: -15px;
+          border-radius: 100px;
+          transform: translateX(-50%);
+          box-sizing: border-box;
+          background: var(--indigo-color);
 }
 
 .h1 {
-    font-size: xx-large !important;
-    font-weight: 700 !important;
+          font-size: xx-large !important;
+          font-weight: 700 !important;
 }
 
 .metric-card .h2 {
-    font-size: small !important;
-    color: var(--grey-color);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+          font-size: small !important;
+          color: var(--grey-color);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
 }
 
 .metric-card p {
-    margin: 0;
-    font-size: large;
-    font-weight: bold;
-    color: var(--indigo-color);
-    white-space: nowrap;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+          margin: 0;
+          font-size: large;
+          font-weight: bold;
+          color: var(--indigo-color);
+          white-space: nowrap;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
 }
 
 .metric-card.success::before {
-    background: var(--green-color);
+          background: var(--green-color);
 }
 
 .metric-card.error::before {
-    background: var(--red-color);
+          background: var(--red-color);
 }
 
 /* Custom category box */
 .custom-category-box {
-    background-color: red;
-    padding: 1rem;
-    border-radius: 8px;
-    margin-bottom: 1rem;
-    border-left: 4px solid #2196F3;
+          background-color: red;
+          padding: 1rem;
+          border-radius: 8px;
+          margin-bottom: 1rem;
+          border-left: 4px solid #2196F3;
 }
 
 .custom-category-box h3 {
-    margin-top: 0;
-    color: #0d47a1;
+          margin-top: 0;
+          color: #0d47a1;
 }
 
 /* Section headers */
@@ -497,53 +497,56 @@ footer {
 .filter-section,
 .download-section,
 .stats-section {
-    padding-bottom: 0.5rem;
-    margin: 1.5rem 0 1rem;
-    border-bottom: 1px solid #eee;
+          padding-bottom: 0.5rem;
+          margin: 1.5rem 0 1rem;
+          border-bottom: 1px solid #eee;
 }
 
 /* Results count */
 .results-count {
-    margin: 1rem 0;
-    font-size: 0.95rem;
-    color: #555;
+          margin: 1rem 0;
+          font-size: 0.95rem;
+          color: #555;
 }
 
 /* Button styles */
 .stButton>button {
-    border-radius: 6px;
-    transition: all 0.3s ease;
+          border-radius: 6px;
+          transition: all 0.3s ease;
 }
 
 .stButton>button:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          transform: translateY(-1px);
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Dataframe styles */
 .stDataFrame {
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+          border-radius: 8px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 /* Tab styles */
 .stTabs [data-baseweb="tab-list"] {
-    gap: 10px;
+          gap: 10px;
 }
 
 .stTabs [data-baseweb="tab"] {
-    border-radius: 6px !important;
-    padding: 8px 16px !important;
-    transition: all 0.3s ease;
+          border-radius: 6px !important;
+          padding: 8px 16px !important;
+          transition: all 0.3s ease;
 }
 
 .stTabs [data-baseweb="tab"]:hover {
-    background: var(--black);
+          background: var(--black);
 }
 
 div[role="presentation"] {
-    background: var(--indigo-color);
-    margin-top: 10px;
+          background: var(--indigo-color);
+          margin-top: 10px;
 }
 
 
+div[role="alert"] {
+          display: none;
+}
