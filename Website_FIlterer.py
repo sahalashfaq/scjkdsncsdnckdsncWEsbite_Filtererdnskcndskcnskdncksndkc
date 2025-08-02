@@ -690,8 +690,7 @@ def main():
         
         col1, col2 = st.columns(2)
         
-        if 'filtered_df' not in locals():
-          filtered_df = result_df
+    if len(filtered_df) < len(result_df):
           with col1:
                 csv_filtered = filtered_df.to_csv(index=False)
                 st.download_button(
