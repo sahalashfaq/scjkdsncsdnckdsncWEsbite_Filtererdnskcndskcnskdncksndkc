@@ -210,10 +210,6 @@ button[kind="primary"] {
     border-color: var(--indigo-color) rgba(49, 51, 63, 0.2) rgba(49, 51, 63, 0.2);
 }
 
-.st-as {
-    background: var(--indigo-color);
-}
-
 button[kind="primary"] p {
     color: var(--white);
     font-weight: 600;
@@ -549,4 +545,5 @@ div[role="presentation"] {
     background: var(--indigo-color);
     margin-top: 10px;
 }
+
 
