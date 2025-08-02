@@ -681,7 +681,7 @@ def main():
         
         st.dataframe(filtered_df, use_container_width=True)
         
-        # Download buttons
+         # Download buttons
         st.markdown("""
         <div class="download-section">
             <p class="h1">Download Results :</p>
@@ -690,26 +690,30 @@ def main():
         
         col1, col2 = st.columns(2)
         
-    if len(filtered_df) < len(result_df):
-          with col1:
+        # Initialize filtered_df with result_df if not already defined
+        if 'filtered_df' not in locals():
+            filtered_df = result_df.copy()
+        
+        # Only show filtered download if filters are active
+        if any(v != 'All' for k, v in filters.items() if k != 'success_only') or filters['success_only']:
+            with col1:
                 csv_filtered = filtered_df.to_csv(index=False)
                 st.download_button(
-                label="Download Filtered Data (CSV)",
-                data=csv_filtered,
-                file_name="filtered_websites.csv",
-                mime="text/csv",
-                use_container_width=True
+                    label="Download Filtered Data (CSV)",
+                    data=csv_filtered,
+                    file_name="filtered_websites.csv",
+                    mime="text/csv",
+                    use_container_width=True
                 )
-
         
-          with col2:
+        with col2:
             csv = result_df.to_csv(index=False)
             st.download_button(
-            label="Download All Data (CSV)",
-            data=csv,
-            file_name="all_websites.csv",
-            mime="text/csv",
-            use_container_width=True
+                label="Download All Data (CSV)",
+                data=csv,
+                file_name="all_websites.csv",
+                mime="text/csv",
+                use_container_width=True
             )
 
         
@@ -717,6 +721,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
