@@ -478,3 +478,6 @@ div[data-testid="stHorizontalBlock"]:has(button[data-testid="stBaseButton-second
 div[data-testid="stMainBlockContainer"]{
     padding: 20px 20px !important;
 }
+div._pendingStateRedesignScreenshot_1ud17_13{
+    display: none !important;
+}
