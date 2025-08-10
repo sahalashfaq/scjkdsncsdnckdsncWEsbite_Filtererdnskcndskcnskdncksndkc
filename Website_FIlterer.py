@@ -10,49 +10,23 @@ import logging
 import json
 from collections import defaultdict
 import streamlit as st
-import streamlit.components.v1 as components
 import re
-from io import StringIO
+from io import StringIO, BytesIO
 import os
-# Custom CSSF
+import zipfile
+import socket
+
+# Custom CSS
 def local_css(file_name):
     with open(file_name) as f:
         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
+st.set_page_config(layout="centered")
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
-components.html(
-    """
-        <script>
-            (function () {
-    const threshold = 160;
-
-    // Check for DevTools every second
-    setInterval(() => {
-      const devtoolsOpen = (
-        window.outerWidth - window.innerWidth > threshold ||
-        window.outerHeight - window.innerHeight > threshold
-      );
-      if (devtoolsOpen) {
-        window.location.replace("https://seekgps.com");
-      }
-    }, 1000);
-
-    // Block Ctrl+S and Ctrl+U
-    document.addEventListener('keydown', function (e) {
-      if ((e.ctrlKey || e.metaKey) && (e.key.toLowerCase() === 's' || e.key.toLowerCase() === 'u')) {
-        e.preventDefault();
-        alert('This action is disabled on this page.');
-        return false;
-      }
-    });
-  })();
-        </script>
-    """,
-    height=0,
-)
 # Main category keywords
 MAIN_CATEGORIES = {
     'blog': [
@@ -62,7 +36,6 @@ MAIN_CATEGORIES = {
         'related posts', 'subscribe', 'newsletter', 'comment section', 'home', 'tip', 'contact', 'about', 
         'advertise', 'read more', 'featured', 'latest', 'recent', 'advertising', 'learn', 'sitemap',
         'subscribe', 'guide', 'min read', 'editorial', 'advertise with us', 'newsletter', 'advertise',
-
     ],
     'ecommerce': [
         'shop', 'store', 'cart', 'buy now', 'order now',
@@ -177,7 +150,7 @@ def get_custom_categories():
         if submitted and category and keywords:
             keyword_list = [k.strip() for k in keywords.split(',')]
             custom_categories[category] = keyword_list
-            st.success(f"✅ Added niche: {category} with {len(keyword_list)} keywords")
+            st.success(f"Added niche: {category} with {len(keyword_list)} keywords")
     
     return custom_categories
 
@@ -192,6 +165,40 @@ def merge_keywords(default, custom):
             merged[category] = keywords
     return merged
 
+def check_network():
+    """Check if network is available by attempting to connect to a reliable host"""
+    try:
+        socket.create_connection(("8.8.8.8", 53), timeout=3)
+        return True
+    except (socket.gaierror, socket.timeout, OSError):
+        return False
+
+def create_zip_in_memory(processed_df, unprocessed_df):
+    """Create ZIP archive entirely in memory (no files written to disk)."""
+    try:
+        zip_buffer = BytesIO()
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        
+        with zipfile.ZipFile(zip_buffer, mode='w', compression=zipfile.ZIP_DEFLATED) as zf:
+            # Add processed CSV
+            if not processed_df.empty:
+                processed_csv = processed_df.to_csv(index=False, encoding='utf-8')
+                zf.writestr(f"Processed_by_SeekGPs_{timestamp}.csv", processed_csv)
+            
+            # Add unprocessed CSV
+            if not unprocessed_df.empty:
+                unprocessed_csv = unprocessed_df.to_csv(index=False, encoding='utf-8')
+                zf.writestr(f"Errored_data_file_by_SeekGPs_{timestamp}.csv", unprocessed_csv)
+        
+        # Reset buffer position so it can be read from the start
+        zip_buffer.seek(0)
+        
+        # Return the in-memory ZIP and its filename
+        return zip_buffer, f"Website_Analysis_{timestamp}.zip"
+    
+    except Exception as e:
+        logger.error(f"Error creating ZIP in memory: {str(e)}")
+        return None, None
 def get_site_content(url, timeout=15, retries=3):
     """Fetch the HTML content of the website with retries and timeout"""
     for attempt in range(retries):
@@ -423,23 +430,41 @@ def classify_website(url, main_categories, niche_categories):
             "error": str(e)
         }
 
-def process_websites(df, main_categories, niche_categories, progress_bar):
+def process_websites(df, url_column, main_categories, niche_categories, progress_bar):
     """Process websites while maintaining original data alignment"""
     results = []
     total = len(df)
     
     # Create a dictionary to store results with original index
     results_dict = {index: None for index in range(len(df))}
+    errored_urls = []  # Track errored URLs for unprocessed file
     
     # Add progress tracking variables
     start_time = time.time()
     processed_count = 0
     
+    # Check network availability
+    network_available = check_network()
+    
+    if not network_available:
+        st.warning("Network is down. Analysis will not proceed. Saving all data as unprocessed.")
+        unprocessed_df = df.copy()
+        zip_buffer, zip_filename = create_zip_in_memory(pd.DataFrame(), unprocessed_df)
+        if zip_buffer:
+            st.download_button(
+                label="Download Unprocessed Data (ZIP)",
+                data=zip_buffer,
+                file_name=zip_filename,
+                mime="application/zip",
+                use_container_width=True
+            )
+        return df
+
     with ThreadPoolExecutor(max_workers=5) as executor:
         futures = {
             executor.submit(
                 classify_website, 
-                row['Website'], 
+                row[url_column], 
                 main_categories, 
                 niche_categories
             ): index 
@@ -463,11 +488,14 @@ def process_websites(df, main_categories, niche_categories, progress_bar):
                     "Success": result['success'],
                     "Error": result['error']
                 }
+                # If the website errored, add its original row to errored_urls
+                if not result['success']:
+                    errored_urls.append(df.iloc[index])
             except Exception as e:
                 results_dict[index] = {
-                    "Domain": result.get('domain', 'Unknown'),
-                    "TLD": result.get('tld', 'unknown'),
-                    "TLD Category": result.get('tld_category', 'Unknown'),
+                    "Domain": df.iloc[index][url_column] if url_column in df.columns else 'Unknown',
+                    "TLD": "unknown",
+                    "TLD Category": "Unknown",
                     "Main Type": "Error",
                     "Niches": "None",
                     "Language": "Unknown",
@@ -477,6 +505,8 @@ def process_websites(df, main_categories, niche_categories, progress_bar):
                     "Success": False,
                     "Error": str(e)
                 }
+                # Add to errored_urls on exception
+                errored_urls.append(df.iloc[index])
             
             # Update progress tracking
             processed_count += 1
@@ -502,6 +532,23 @@ def process_websites(df, main_categories, niche_categories, progress_bar):
     
     # Join with original DataFrame while preserving order
     final_df = df.join(results_df)
+    
+    # Create processed DataFrame with only successful rows
+    processed_df = final_df[final_df['Success'] == True].copy() if 'Success' in final_df.columns else pd.DataFrame()
+    
+    # Create unprocessed DataFrame with only errored URLs
+    unprocessed_df = pd.DataFrame(errored_urls) if errored_urls else pd.DataFrame()
+    
+    # Create ZIP in memory
+    zip_buffer, zip_filename = create_zip_in_memory(processed_df, unprocessed_df)
+    if zip_buffer:
+        st.download_button(
+            label="Download Analysis Results (ZIP)",
+            data=zip_buffer,
+            file_name=zip_filename,
+            mime="application/zip",
+            use_container_width=True
+        )
     
     return final_df
 
@@ -530,27 +577,30 @@ def filter_data(df, filters):
     return filtered_df
 
 def main():
-    
     # Load custom CSS
     local_css("style.css")
 
-    # Initialize session state for processed data and custom categories
+    # Initialize session state for processed data, custom categories, and URL column
     if 'processed_data' not in st.session_state:
         st.session_state.processed_data = None
     if 'custom_niches' not in st.session_state:
         st.session_state.custom_niches = {}
     if 'show_add_category' not in st.session_state:
         st.session_state.show_add_category = False
+    if 'url_column' not in st.session_state:
+        st.session_state.url_column = 'Website'
+    if 'original_data' not in st.session_state:
+        st.session_state.original_data = None
 
     # Add Category button - top right corner
     col1, col2 = st.columns([6, 1])
     with col2:
-        if st.button("➕ Add Category", key="add_category_btn"):
+        if st.button("Add Custom Category", key="add_category_btn"):
             st.session_state.show_add_category = not st.session_state.show_add_category
 
     # Show add category form if toggled
     if st.session_state.show_add_category:
-        with st.expander("➕ Add Custom Category", expanded=True):
+        with st.expander("Add Custom Category", expanded=True):
             with st.form("custom_categories_form"):
                 cols = st.columns(2)
                 category = cols[0].text_input("Category Name").strip().lower()
@@ -560,7 +610,7 @@ def main():
                 if submitted and category and keywords:
                     keyword_list = [k.strip() for k in keywords.split(',')]
                     st.session_state.custom_niches[category] = keyword_list
-                    st.success(f"✅ Added niche: {category} with {len(keyword_list)} keywords")
+                    st.success(f"Added niche: {category} with {len(keyword_list)} keywords")
                     st.session_state.show_add_category = False  # Hide after adding
 
     # Merge default and custom categories
@@ -586,26 +636,37 @@ def main():
     uploaded_file = st.file_uploader("Choose a CSV file with websites", type=['csv'], label_visibility="collapsed")
     
     if uploaded_file is not None:
-            try:
-                df = pd.read_csv(uploaded_file)
-                if 'Website' not in df.columns:
-                    st.error("⚠️ CSV file must contain a 'Website' column with URLs")
-                    st.stop()
+        try:
+            df = pd.read_csv(uploaded_file)
+            st.session_state.original_data = df.copy()  # Store original data
+            # Add selectbox for choosing URL column
+            st.markdown("""
+            <div class="url-column-select">
+                <p>Select the column containing website URLs:</p>
+            </div>
+            """, unsafe_allow_html=True)
+            url_column = st.selectbox(
+                "URL Column",
+                options=df.columns.tolist(),
+                index=df.columns.tolist().index(st.session_state.url_column) if st.session_state.url_column in df.columns else 0,
+                key="url_column_select"
+            )
+            st.session_state.url_column = url_column
+            
+            if url_column not in df.columns:
+                st.error(f"⚠️ Selected column '{url_column}' not found in CSV file")
+                st.stop()
                 
-                if st.button("Start Analysis", use_container_width=True, type="primary"):
-                   with st.spinner("Processing websites..."):
-                        progress_bar = st.progress(0, text="Preparing to process websites...")
-                        result_df = process_websites(df, MAIN_CATEGORIES, niche_categories, progress_bar)
-                        st.session_state.processed_data = result_df
-                        progress_bar.empty()
-                        st.success("✅  Analysis completed!")
-                        st.markdown("""<hr>""", unsafe_allow_html=True)
-                            # File upload section
-                        # st.markdown("""
-                        # <hr>
-                        # """, unsafe_allow_html=True)
-            except Exception as e:
-                st.error(f"Error reading file: {str(e)}")
+            if st.button("Start Analysis", use_container_width=True, type="primary"):
+                with st.spinner("Processing websites..."):
+                    progress_bar = st.progress(0, text="Preparing to process websites...")
+                    result_df = process_websites(df, url_column, MAIN_CATEGORIES, niche_categories, progress_bar)
+                    st.session_state.processed_data = result_df
+                    progress_bar.empty()
+                    st.success("Analysis completed!")
+                    st.markdown("""<hr>""", unsafe_allow_html=True)
+        except Exception as e:
+            st.error(f"Error reading file: {str(e)}")
     
     # Main content area
     if st.session_state.processed_data is not None:
@@ -681,7 +742,7 @@ def main():
         
         st.dataframe(filtered_df, use_container_width=True)
         
-         # Download buttons
+        # Download buttons
         st.markdown("""
         <div class="download-section">
             <p class="h1">Download Results :</p>
@@ -689,10 +750,6 @@ def main():
         """, unsafe_allow_html=True)
         
         col1, col2 = st.columns(2)
-        
-        # Initialize filtered_df with result_df if not already defined
-        if 'filtered_df' not in locals():
-            filtered_df = result_df.copy()
         
         # Only show filtered download if filters are active
         if any(v != 'All' for k, v in filters.items() if k != 'success_only') or filters['success_only']:
@@ -716,16 +773,5 @@ def main():
                 use_container_width=True
             )
 
-        
-        
-
 if __name__ == "__main__":
     main()
-
-
-
-
-
-
-
-
