@@ -477,5 +477,4 @@ div[data-testid="stHorizontalBlock"]:has(button[data-testid="stBaseButton-second
 }
 div[data-testid="stMainBlockContainer"]{
     padding: 20px 20px !important;
-    zoom: 80%;
 }
