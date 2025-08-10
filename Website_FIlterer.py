@@ -174,31 +174,26 @@ def check_network():
         return False
 
 def create_zip_in_memory(processed_df, unprocessed_df):
-    """Create ZIP archive entirely in memory (no files written to disk)."""
+    """Create ZIP archive in memory"""
     try:
         zip_buffer = BytesIO()
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         
-        with zipfile.ZipFile(zip_buffer, mode='w', compression=zipfile.ZIP_DEFLATED) as zf:
-            # Add processed CSV
+        with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zf:
             if not processed_df.empty:
-                processed_csv = processed_df.to_csv(index=False, encoding='utf-8')
+                processed_csv = processed_df.to_csv(index=False)
                 zf.writestr(f"Processed_by_SeekGPs_{timestamp}.csv", processed_csv)
             
-            # Add unprocessed CSV
             if not unprocessed_df.empty:
-                unprocessed_csv = unprocessed_df.to_csv(index=False, encoding='utf-8')
-                zf.writestr(f"Errored_data_file_by_SeekGPs_{timestamp}.csv", unprocessed_csv)
+                unprocessed_csv = unprocessed_df.to_csv(index=False)
+                zf.writestr(f"Unprocessed_data_file_by_SeekGPs_{timestamp}.csv", unprocessed_csv)
         
-        # Reset buffer position so it can be read from the start
         zip_buffer.seek(0)
-        
-        # Return the in-memory ZIP and its filename
         return zip_buffer, f"Website_Analysis_{timestamp}.zip"
-    
     except Exception as e:
         logger.error(f"Error creating ZIP in memory: {str(e)}")
         return None, None
+
 def get_site_content(url, timeout=15, retries=3):
     """Fetch the HTML content of the website with retries and timeout"""
     for attempt in range(retries):
@@ -458,7 +453,7 @@ def process_websites(df, url_column, main_categories, niche_categories, progress
                 mime="application/zip",
                 use_container_width=True
             )
-        return df
+        return df  # Return original df
 
     with ThreadPoolExecutor(max_workers=5) as executor:
         futures = {
@@ -663,7 +658,7 @@ def main():
                     result_df = process_websites(df, url_column, MAIN_CATEGORIES, niche_categories, progress_bar)
                     st.session_state.processed_data = result_df
                     progress_bar.empty()
-                    st.success("Analysis completed!")
+                    st.success("✅ Analysis completed!")
                     st.markdown("""<hr>""", unsafe_allow_html=True)
         except Exception as e:
             st.error(f"Error reading file: {str(e)}")
@@ -672,106 +667,110 @@ def main():
     if st.session_state.processed_data is not None:
         result_df = st.session_state.processed_data
         
-        # Display summary statistics
-        st.markdown("""
-        <div class="summary-section">
-            <p class="h3">Analysis Summary:</p>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        col1, col2, col3 = st.columns(3)
-        
-        success_count = result_df['Success'].sum()
-        error_count = len(result_df) - success_count
-        
-        col1.markdown("""
-        <div class="metric-card">
-            <p class="h2">Total Websites:</p>
-            <p>{}</p>
-        </div>
-        """.format(len(result_df)), unsafe_allow_html=True)
-        
-        col2.markdown("""
-        <div class="metric-card success">
-            <p class="h2">Successful:</p>
-            <p>{}</p>
-        </div>
-        """.format(success_count), unsafe_allow_html=True)
-        
-        col3.markdown("""
-        <div class="metric-card error">
-            <p class="h2">Errors:</p>
-            <p>{}</p>
-        </div>
-        """.format(error_count), unsafe_allow_html=True)
-        
-        # Filters
-        st.markdown("""
-        <div class="filter-section">
-            <p class="h1"></p>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        # Get unique values for filters
-        main_types = ['All'] + sorted(result_df['Main Type'].unique().tolist())
-        niches = ['All'] + sorted(set([niche for niches in result_df['Niches'].str.split(', ') for niche in niches if niche != 'None']))
-        languages = ['All'] + sorted(result_df['Language'].unique().tolist())
-        tld_categories = ['All'] + sorted(result_df['TLD Category'].unique().tolist())
-        tlds = ['All'] + sorted(result_df['TLD'].unique().tolist())
-        
-        # Create filter controls
-        cols = st.columns(5)
-        filters = {
-            'main_type': cols[0].selectbox("Main Type", main_types),
-            'niche': cols[1].selectbox("Niche", niches),
-            'language': cols[2].selectbox("Language", languages),
-            'tld_category': cols[3].selectbox("TLD Category", tld_categories),
-            'tld': cols[4].selectbox("TLD", tlds),
-            'success_only': st.checkbox("Show only successful classifications", True)
-        }
-        
-        # Apply filters
-        filtered_df = filter_data(result_df, filters)
-        
-        # Show filtered results
-        st.markdown(f"""
-        <div class="results-count">
-            <p>Showing <strong>{len(filtered_df)}</strong> of <strong>{len(result_df)}</strong> websites</p>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        st.dataframe(filtered_df, use_container_width=True)
-        
-        # Download buttons
-        st.markdown("""
-        <div class="download-section">
-            <p class="h1">Download Results :</p>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        col1, col2 = st.columns(2)
-        
-        # Only show filtered download if filters are active
-        if any(v != 'All' for k, v in filters.items() if k != 'success_only') or filters['success_only']:
-            with col1:
-                csv_filtered = filtered_df.to_csv(index=False)
+        # Display summary statistics only if processing occurred
+        if 'Success' in result_df.columns:
+            st.markdown("""
+            <div class="summary-section">
+                <p class="h3">Analysis Summary:</p>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            col1, col2, col3 = st.columns(3)
+            
+            success_count = result_df['Success'].sum()
+            error_count = len(result_df) - success_count
+            
+            col1.markdown("""
+            <div class="metric-card">
+                <p class="h2">Total Websites:</p>
+                <p>{}</p>
+            </div>
+            """.format(len(result_df)), unsafe_allow_html=True)
+            
+            col2.markdown("""
+            <div class="metric-card success">
+                <p class="h2">Successful:</p>
+                <p>{}</p>
+            </div>
+            """.format(success_count), unsafe_allow_html=True)
+            
+            col3.markdown("""
+            <div class="metric-card error">
+                <p class="h2">Errors:</p>
+                <p>{}</p>
+            </div>
+            """.format(error_count), unsafe_allow_html=True)
+            
+            # Filters
+            st.markdown("""
+            <div class="filter-section">
+                <p class="h1"></p>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Get unique values for filters
+            main_types = ['All'] + sorted(result_df['Main Type'].unique().tolist())
+            niches = ['All'] + sorted(set([niche for niches in result_df['Niches'].str.split(', ') for niche in niches if niche != 'None']))
+            languages = ['All'] + sorted(result_df['Language'].unique().tolist())
+            tld_categories = ['All'] + sorted(result_df['TLD Category'].unique().tolist())
+            tlds = ['All'] + sorted(result_df['TLD'].unique().tolist())
+            
+            # Create filter controls
+            cols = st.columns(5)
+            filters = {
+                'main_type': cols[0].selectbox("Main Type", main_types),
+                'niche': cols[1].selectbox("Niche", niches),
+                'language': cols[2].selectbox("Language", languages),
+                'tld_category': cols[3].selectbox("TLD Category", tld_categories),
+                'tld': cols[4].selectbox("TLD", tlds),
+                'success_only': st.checkbox("Show only successful classifications", True)
+            }
+            
+            # Apply filters
+            filtered_df = filter_data(result_df, filters)
+            
+            # Show filtered results
+            st.markdown(f"""
+            <div class="results-count">
+                <p>Showing <strong>{len(filtered_df)}</strong> of <strong>{len(result_df)}</strong> websites</p>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            st.dataframe(filtered_df, use_container_width=True)
+            
+            # Download buttons
+            st.markdown("""
+            <div class="download-section">
+                <p class="h1">Download Results :</p>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            col1, col2 = st.columns(2)
+            
+            # Only show filtered download if filters are active
+            if any(v != 'All' for k, v in filters.items() if k != 'success_only') or filters['success_only']:
+                with col1:
+                    csv_filtered = filtered_df.to_csv(index=False)
+                    st.download_button(
+                        label="Download Filtered Data (CSV)",
+                        data=csv_filtered,
+                        file_name="filtered_websites.csv",
+                        mime="text/csv",
+                        use_container_width=True
+                    )
+            
+            with col2:
+                csv = result_df.to_csv(index=False)
                 st.download_button(
-                    label="Download Filtered Data (CSV)",
-                    data=csv_filtered,
-                    file_name="filtered_websites.csv",
+                    label="Download All Data (CSV)",
+                    data=csv,
+                    file_name="all_websites.csv",
                     mime="text/csv",
                     use_container_width=True
                 )
-        
-        with col2:
-            csv = result_df.to_csv(index=False)
-            st.download_button(
-                label="Download All Data (CSV)",
-                data=csv,
-                file_name="all_websites.csv",
-                mime="text/csv",
-                use_container_width=True
-            )
+        else:
+            # When processing didn't happen, show alternative message
+            st.info("Analysis could not be performed due to network issues. Please download the unprocessed data above.")
 
 if __name__ == "__main__":
     main()
