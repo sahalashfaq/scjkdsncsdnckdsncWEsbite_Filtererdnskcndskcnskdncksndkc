@@ -488,16 +488,16 @@ def process_websites(df, url_column, main_categories, niche_categories, progress
                     errored_urls.append(df.iloc[index])
             except Exception as e:
                 results_dict[index] = {
-                    "Domain": df.iloc[index][url_column] if url_column in df.columns else 'Unknown',
+                    # "Domain": df.iloc[index][url_column] if url_column in df.columns else 'Unknown',
                     "TLD": "unknown",
-                    "TLD Category": "Unknown",
+                    # "TLD Category": "Unknown",
                     "Main Type": "Error",
                     "Niches": "None",
                     "Language": "Unknown",
-                    "Recent Articles": 0,
-                    "Multiple Niches": False,
-                    "Multiple Main Types": False,
-                    "Success": False,
+                    # "Recent Articles": 0,
+                    # "Multiple Niches": False,
+                    # "Multiple Main Types": False,
+                    # "Success": False,
                     "Error": str(e)
                 }
                 # Add to errored_urls on exception
@@ -774,5 +774,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
