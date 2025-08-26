@@ -471,16 +471,16 @@ def process_websites(df, url_column, main_categories, niche_categories, progress
             try:
                 result = future.result()
                 results_dict[index] = {
-                    "Domain": result['domain'],
+                    # "Domain": result['domain'],
                     "TLD": result['tld'],
-                    "TLD Category": result['tld_category'],
+                    # "TLD Category": result['tld_category'],
                     "Main Type": result['main_type'],
                     "Niches": ", ".join(result['niches']) if result['niches'] else "None",
                     "Language": result['language'],
-                    "Recent Articles": len(result['recent_articles']),
-                    "Multiple Niches": len(result['niches']) > 1,
-                    "Multiple Main Types": "," in result['main_type'],
-                    "Success": result['success'],
+                    # "Recent Articles": len(result['recent_articles']),
+                    # "Multiple Niches": len(result['niches']) > 1,
+                    # "Multiple Main Types": "," in result['main_type'],
+                    # "Success": result['success'],
                     "Error": result['error']
                 }
                 # If the website errored, add its original row to errored_urls
@@ -774,4 +774,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
