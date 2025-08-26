@@ -407,8 +407,8 @@ def classify_website(url, main_categories, niche_categories):
             "main_type": main_type,
             "niches": niches,
             "language": language,
-            # "recent_articles": recent_articles,
-            # "success": True,
+            "recent_articles": recent_articles,
+            "success": True,
             "error": cat_error
         }
     except Exception as e:
@@ -420,8 +420,8 @@ def classify_website(url, main_categories, niche_categories):
             "main_type": "Error",
             "niches": [],
             "language": "Unknown",
-            # "recent_articles": [],
-            # "success": False,
+            "recent_articles": [],
+            "success": False,
             "error": str(e)
         }
 
@@ -477,10 +477,10 @@ def process_websites(df, url_column, main_categories, niche_categories, progress
                     "Main Type": result['main_type'],
                     "Niches": ", ".join(result['niches']) if result['niches'] else "None",
                     "Language": result['language'],
-                    # "Recent Articles": len(result['recent_articles']),
-                    # "Multiple Niches": len(result['niches']) > 1,
-                    # "Multiple Main Types": "," in result['main_type'],
-                    # "Success": result['success'],
+                    "Recent Articles": len(result['recent_articles']),
+                    "Multiple Niches": len(result['niches']) > 1,
+                    "Multiple Main Types": "," in result['main_type'],
+                    "Success": result['success'],
                     "Error": result['error']
                 }
                 # If the website errored, add its original row to errored_urls
@@ -494,10 +494,10 @@ def process_websites(df, url_column, main_categories, niche_categories, progress
                     "Main Type": "Error",
                     "Niches": "None",
                     "Language": "Unknown",
-                    # "Recent Articles": 0,
-                    # "Multiple Niches": False,
-                    # "Multiple Main Types": False,
-                    # "Success": False,
+                    "Recent Articles": 0,
+                    "Multiple Niches": False,
+                    "Multiple Main Types": False,
+                    "Success": False,
                     "Error": str(e)
                 }
                 # Add to errored_urls on exception
@@ -774,6 +774,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
