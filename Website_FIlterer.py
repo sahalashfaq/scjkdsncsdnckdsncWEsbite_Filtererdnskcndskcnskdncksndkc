@@ -407,8 +407,8 @@ def classify_website(url, main_categories, niche_categories):
             "main_type": main_type,
             "niches": niches,
             "language": language,
-            "recent_articles": recent_articles,
-            "success": True,
+            # "recent_articles": recent_articles,
+            # "success": True,
             "error": cat_error
         }
     except Exception as e:
@@ -420,8 +420,8 @@ def classify_website(url, main_categories, niche_categories):
             "main_type": "Error",
             "niches": [],
             "language": "Unknown",
-            "recent_articles": [],
-            "success": False,
+            # "recent_articles": [],
+            # "success": False,
             "error": str(e)
         }
 
@@ -774,6 +774,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
